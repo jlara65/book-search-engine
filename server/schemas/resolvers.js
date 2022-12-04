@@ -10,26 +10,31 @@ const resolvers = {
         const userData = await User.findOne({ _id: context.user._id }).select(
           '-__v -password'
         );
+        console.log(userData);
+
         return userData;
       }
+
       throw new AuthenticationError('Not logged in');
     },
   },
+
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       // checking if user exists with email and credentials
       if (!user) {
-        //   if not throw an error
-        throw new AuthenticationError('Invalid credentials');
+        // if not throw an error
+        throw new AuthenticationError('Incorrect credentials');
       }
 
-      const correctPassword = await user.isCorrectPassword(password);
-      if (!correctPassword) {
-        throw new AuthenticationError('Invalid credentials');
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
       }
+
       const token = signToken(user);
-
       return { token, user };
     },
     addUser: async (parent, args) => {
@@ -38,22 +43,24 @@ const resolvers = {
 
       return { token, user };
     },
-    saveBook: async (parent, { input }, context) => {
+
+    saveBook: async (parent, args, context) => {
       if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
+        console.log(args);
+        const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: input } },
-          { new: true, runValidators: true }
+          { $addToSet: { savedBooks: args.book } },
+          { new: true }
         );
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    removeBook: async (parent, { bookId }, context) => {
+    removeBook: async (parent, args, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user_id },
-          { $pull: { savedBooks: { bookId: bookId } } },
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId: args.bookId } } },
           { new: true }
         );
         return updatedUser;
@@ -62,4 +69,5 @@ const resolvers = {
     },
   },
 };
+
 module.exports = resolvers;
