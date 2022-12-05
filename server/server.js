@@ -8,8 +8,6 @@ const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 const { authMiddleware } = require('./utils/auth');
 
-// const routes = require("./routes");
-
 // Express server
 const PORT = process.env.PORT || 3001;
 
