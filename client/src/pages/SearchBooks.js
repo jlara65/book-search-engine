@@ -54,7 +54,10 @@ const SearchBooks = () => {
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
+        image: (book.volumeInfo.imageLinks?.thumbnail || '').replace(
+          'http://',
+          'https://',
+        ),
       }));
 
       setSearchedBooks(bookData);
