@@ -66,7 +66,7 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 ## Usage
 
-The Google Books Search application is currently deployed with [Heroku](https://fierce-caverns-90362.herokuapp.com/)
+The Google Books Search application is currently deployed with [Vercel](https://book-search-engine-git-vercel-upgrade-jlara65s-projects.vercel.app/)
 
 - Screenshot of Portfolio's homepage
   ![Screenshot](./images/Books_search.png)
