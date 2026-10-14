@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "22.20.0"
+    "node": "22.x"
   },
   "scripts": {
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
