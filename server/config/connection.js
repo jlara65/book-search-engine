@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+let cached;
+module.exports = () => (cached ??= mongoose.connect(process.env.MONGODB_URI));
+
+/* const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/googlebooks', {
   useNewUrlParser: true,
@@ -7,4 +11,4 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/googlebooks', {
   useFindAndModify: false,
 });
 
-module.exports = mongoose.connection;
+module.exports = mongoose.connection;*/
