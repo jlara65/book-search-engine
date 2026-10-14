@@ -1,14 +1,19 @@
-// importing Authentication error from apollo servers to show the error message
-const { AuthenticationError } = require('apollo-server-express');
+const { GraphQLError } = require('graphql');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+
+const AuthenticationError = class extends GraphQLError {
+  constructor(message) {
+    super(message, { extensions: { code: 'UNAUTHENTICATED' } });
+  }
+};
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id }).select(
-          '-__v -password'
+          '-__v -password',
         );
         console.log(userData);
 
@@ -50,7 +55,7 @@ const resolvers = {
         const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: args.book } },
-          { new: true }
+          { new: true },
         );
         return updatedUser;
       }
@@ -61,7 +66,7 @@ const resolvers = {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $pull: { savedBooks: { bookId: args.bookId } } },
-          { new: true }
+          { new: true },
         );
         return updatedUser;
       }
