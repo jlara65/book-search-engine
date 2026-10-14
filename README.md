@@ -87,4 +87,4 @@ If you have any question or would like to report the issues in this project, ple
 
 This project is license under the [MIT](./LICENSE)
 
-&copy; 2022 Joseph Lara
+&copy; 2026 Joseph Lara
